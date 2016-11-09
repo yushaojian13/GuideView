@@ -7,7 +7,7 @@ package com.blog.www.guideview;
 class BuildException extends RuntimeException {
 
     private static final long serialVersionUID = 6208777692136933357L;
-    private final String mDetailMessage;
+    private final String      mDetailMessage;
 
     public BuildException() {
         mDetailMessage = "General error.";
