@@ -11,7 +11,6 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -24,28 +23,25 @@ class MaskView extends ViewGroup {
 
     private static final String TAG = "MaskView";
 
-    private final RectF mTargetRect    = new RectF();
-    private final RectF mFullingRect   = new RectF();
-    private final RectF mChildTmpRect  = new RectF();
+    private final RectF mTargetRect   = new RectF();
+    private final RectF mFullingRect  = new RectF();
+    private final RectF mChildTmpRect = new RectF();
 
-    private final Paint mFullingPaint  = new Paint();
+    private final Paint mFullingPaint = new Paint();
 
-    private int         mPadding       = 0;
-    private int         mPaddingLeft   = 0;
-    private int         mPaddingTop    = 0;
-    private int         mPaddingRight  = 0;
-    private int         mPaddingBottom = 0;
+    private int mPadding       = 0;
+    private int mPaddingLeft   = 0;
+    private int mPaddingTop    = 0;
+    private int mPaddingRight  = 0;
+    private int mPaddingBottom = 0;
 
-    private boolean     mCustomFullingRect;
-    private boolean     mOverlayTarget;
-    private int         mCorner        = 0;
-    private int         mStyle         = Component.ROUNDRECT;
-    private Paint       mEraser;
-    private Bitmap      mEraserBitmap;
-    private Canvas      mEraserCanvas;
-
-    private Paint       mPaint;
-    private Paint       transparentPaint;
+    private boolean mCustomFullingRect;
+    private boolean mOverlayTarget;
+    private int     mCorner = 0;
+    private int     mStyle  = Component.ROUNDRECT;
+    private Paint   mEraserPaint;
+    private Bitmap  mEraserBitmap;
+    private Canvas  mEraserCanvas;
 
     public MaskView(Context context) {
         this(context, null, 0);
@@ -65,16 +61,10 @@ class MaskView extends ViewGroup {
         mEraserBitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_8888);
         mEraserCanvas = new Canvas(mEraserBitmap);
 
-        mEraser = new Paint();
-        mEraser.setColor(0xFFFFFFFF);
-        mEraser.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        mEraser.setFlags(Paint.ANTI_ALIAS_FLAG);
-
-        mPaint = new Paint();
-        mPaint.setColor(0xcc000000);
-        transparentPaint = new Paint();
-        transparentPaint.setColor(getResources().getColor(android.R.color.transparent));
-        transparentPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        mEraserPaint = new Paint();
+        mEraserPaint.setColor(0xFFFFFFFF);
+        mEraserPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        mEraserPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
     }
 
     @Override
@@ -260,18 +250,19 @@ class MaskView extends ViewGroup {
         if (!mOverlayTarget) {
             switch (mStyle) {
                 case Component.ROUNDRECT:
-                    mEraserCanvas.drawRoundRect(mTargetRect, mCorner, mCorner, mEraser);
+                    mEraserCanvas.drawRoundRect(mTargetRect, mCorner, mCorner, mEraserPaint);
                     break;
                 case Component.CIRCLE:
                     mEraserCanvas.drawCircle(mTargetRect.centerX(), mTargetRect.centerY(), mTargetRect.width() / 2,
-                                             mEraser);
+                                             mEraserPaint);
                     break;
                 default:
-                    mEraserCanvas.drawRoundRect(mTargetRect, mCorner, mCorner, mEraser);
+                    mEraserCanvas.drawRoundRect(mTargetRect, mCorner, mCorner, mEraserPaint);
                     break;
             }
-            canvas.drawBitmap(mEraserBitmap, 0, 0, null);
         }
+
+        canvas.drawBitmap(mEraserBitmap, 0, 0, null);
     }
 
     public void setTargetRect(Rect rect) {
