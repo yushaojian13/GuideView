@@ -16,6 +16,38 @@ class Configuration implements Parcelable {
     View mTargetView = null;
 
     /**
+     * 目标控件Id
+     */
+    int mTargetViewId = -1;
+
+    /**
+     * 遮罩覆盖区域控件Id
+     * <p/>
+     * 该控件的大小既该导航页面的大小
+     */
+    int mFullingViewId = -1;
+
+    /**
+     * 遮罩背景颜色id
+     */
+    int mFullingColorId = android.R.color.black;
+
+    /**
+     * 遮罩透明度
+     */
+    int mAlpha = 255;
+
+    /**
+     * 高亮区域的圆角大小
+     */
+    int mCorner = 0;
+
+    /**
+     * 高亮区域的图形样式，默认为矩形
+     */
+    int mGraphStyle = Component.ROUNDRECT;
+
+    /**
      * 高亮区域的padding
      */
     int mPadding       = 0;
@@ -37,51 +69,19 @@ class Configuration implements Parcelable {
     int mPaddingBottom = 0;
 
     /**
+     * 是否覆盖目标控件
+     */
+    boolean mOverlayTarget = false;
+
+    /**
      *
      */
     boolean mOutsideTouchable;
 
     /**
-     * 遮罩透明度
-     */
-    int mAlpha = 255;
-
-    /**
-     * 遮罩覆盖区域控件Id
-     * <p/>
-     * 该控件的大小既该导航页面的大小
-     */
-    int mFullingViewId = -1;
-
-    /**
-     * 目标控件Id
-     */
-    int mTargetViewId = -1;
-
-    /**
-     * 高亮区域的圆角大小
-     */
-    int mCorner = 0;
-
-    /**
-     * 高亮区域的图形样式，默认为矩形
-     */
-    int mGraphStyle = Component.ROUNDRECT;
-
-    /**
-     * 遮罩背景颜色id
-     */
-    int mFullingColorId = android.R.color.black;
-
-    /**
      * 是否在点击的时候自动退出导航
      */
     boolean mAutoDismiss = true;
-
-    /**
-     * 是否覆盖目标控件
-     */
-    boolean mOverlayTarget = false;
 
     boolean mShowCloseButton = false;
 

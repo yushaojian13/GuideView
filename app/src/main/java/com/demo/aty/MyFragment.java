@@ -18,7 +18,6 @@ import com.demo.guide.R;
 public class MyFragment extends Fragment {
 
     private LinearLayout ll_nearby;
-    Guide                guide;
 
     @Nullable
     @Override
@@ -51,8 +50,16 @@ public class MyFragment extends Fragment {
 
     public void showGuideView() {
         GuideBuilder builder = new GuideBuilder();
-        builder.setTargetView(ll_nearby).setAlpha(150).setHighTargetCorner(20).setHighTargetPadding(10)
-                .setOverlayTarget(false).setOutsideTouchable(false);
+
+        // @formatter:off
+        builder.setTargetView(ll_nearby)
+               .setAlpha(150)
+               .setHighTargetCorner(20)
+               .setHighTargetPadding(10)
+               .setOverlayTarget(false)
+               .setOutsideTouchable(false);
+        // @formatter:on
+
         builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
 
             @Override
@@ -65,7 +72,8 @@ public class MyFragment extends Fragment {
         });
 
         builder.addComponent(new MutiComponent());
-        guide = builder.createGuide();
+
+        Guide guide = builder.createGuide();
         guide.setShouldCheckLocInWindow(true);
         guide.show(getActivity());
     }

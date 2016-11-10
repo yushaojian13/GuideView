@@ -25,12 +25,13 @@ public class Guide implements View.OnKeyListener, View.OnClickListener {
     Guide() {
     }
 
-    private Configuration mConfiguration;
-    private MaskView      mMaskView;
-    private Component[]   mComponents;
-    // 根据locInwindow定位后，是否需要判断loc值非0
-    private boolean                                  mShouldCheckLocInWindow = true;
+    private Configuration                            mConfiguration;
+    private Component[]                              mComponents;
     private GuideBuilder.OnVisibilityChangedListener mOnVisibilityChangedListener;
+
+    private boolean mShouldCheckLocInWindow = true; // 根据locInwindow定位后，是否需要判断loc值非0
+
+    private MaskView mMaskView;
 
     void setConfiguration(Configuration configuration) {
         mConfiguration = configuration;
@@ -45,6 +46,13 @@ public class Guide implements View.OnKeyListener, View.OnClickListener {
     }
 
     /**
+     * 根据locInwindow定位后，是否需要判断loc值非0
+     */
+    public void setShouldCheckLocInWindow(boolean set) {
+        mShouldCheckLocInWindow = set;
+    }
+
+    /**
      * 显示该遮罩, <br>
      * 外部借助{@link com.blog.www.guideview.GuideBuilder}
      * 创建好一个Guide实例后，使用该实例调用本函数遮罩才会显示
@@ -55,6 +63,7 @@ public class Guide implements View.OnKeyListener, View.OnClickListener {
         if (mMaskView == null) {
             mMaskView = onCreateView(activity);
         }
+
         ViewGroup content = (ViewGroup) activity.findViewById(android.R.id.content);
         if (mMaskView.getParent() == null) {
             content.addView(mMaskView);
@@ -65,7 +74,6 @@ public class Guide implements View.OnKeyListener, View.OnClickListener {
 
                     @Override
                     public void onAnimationStart(Animation animation) {
-
                     }
 
                     @Override
@@ -77,7 +85,6 @@ public class Guide implements View.OnKeyListener, View.OnClickListener {
 
                     @Override
                     public void onAnimationRepeat(Animation animation) {
-
                     }
                 });
                 mMaskView.startAnimation(anim);
@@ -96,10 +103,12 @@ public class Guide implements View.OnKeyListener, View.OnClickListener {
         if (mMaskView == null) {
             return;
         }
+
         final ViewGroup vp = (ViewGroup) mMaskView.getParent();
         if (vp == null) {
             return;
         }
+
         if (mConfiguration.mExitAnimationId != -1) {
             // mMaskView may leak if context is null
             Context context = mMaskView.getContext();
@@ -111,7 +120,6 @@ public class Guide implements View.OnKeyListener, View.OnClickListener {
 
                 @Override
                 public void onAnimationStart(Animation animation) {
-
                 }
 
                 @Override
@@ -125,7 +133,6 @@ public class Guide implements View.OnKeyListener, View.OnClickListener {
 
                 @Override
                 public void onAnimationRepeat(Animation animation) {
-
                 }
             });
             mMaskView.startAnimation(anim);
@@ -136,13 +143,6 @@ public class Guide implements View.OnKeyListener, View.OnClickListener {
             }
             onDestroy();
         }
-    }
-
-    /**
-     * 根据locInwindow定位后，是否需要判断loc值非0
-     */
-    public void setShouldCheckLocInWindow(boolean set) {
-        mShouldCheckLocInWindow = set;
     }
 
     private MaskView onCreateView(Activity activity) {

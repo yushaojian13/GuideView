@@ -27,12 +27,15 @@ class MaskView extends ViewGroup {
     private final RectF mTargetRect    = new RectF();
     private final RectF mFullingRect   = new RectF();
     private final RectF mChildTmpRect  = new RectF();
+
     private final Paint mFullingPaint  = new Paint();
+
     private int         mPadding       = 0;
     private int         mPaddingLeft   = 0;
     private int         mPaddingTop    = 0;
     private int         mPaddingRight  = 0;
     private int         mPaddingBottom = 0;
+
     private boolean     mCustomFullingRect;
     private boolean     mOverlayTarget;
     private int         mCorner        = 0;
@@ -40,6 +43,7 @@ class MaskView extends ViewGroup {
     private Paint       mEraser;
     private Bitmap      mEraserBitmap;
     private Canvas      mEraserCanvas;
+
     private Paint       mPaint;
     private Paint       transparentPaint;
 
@@ -61,16 +65,16 @@ class MaskView extends ViewGroup {
         mEraserBitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_8888);
         mEraserCanvas = new Canvas(mEraserBitmap);
 
+        mEraser = new Paint();
+        mEraser.setColor(0xFFFFFFFF);
+        mEraser.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        mEraser.setFlags(Paint.ANTI_ALIAS_FLAG);
+
         mPaint = new Paint();
         mPaint.setColor(0xcc000000);
         transparentPaint = new Paint();
         transparentPaint.setColor(getResources().getColor(android.R.color.transparent));
         transparentPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-
-        mEraser = new Paint();
-        mEraser.setColor(0xFFFFFFFF);
-        mEraser.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        mEraser.setFlags(Paint.ANTI_ALIAS_FLAG);
     }
 
     @Override
@@ -245,7 +249,6 @@ class MaskView extends ViewGroup {
                 drawChild(canvas, child, drawingTime);
             }
         } catch (NullPointerException e) {
-
         }
     }
 

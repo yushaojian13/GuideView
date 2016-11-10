@@ -19,7 +19,6 @@ import com.demo.guide.R;
 public class ViewActivity extends Activity {
 
     private LinearLayout ll_nearby, ll_view_group;
-    Guide                guide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +44,17 @@ public class ViewActivity extends Activity {
 
     public void showGuideView() {
         GuideBuilder builder = new GuideBuilder();
-        builder.setTargetView(ll_nearby).setFullingViewId(R.id.ll_view_group).setAlpha(150).setHighTargetCorner(20)
-                .setHighTargetPadding(10).setOverlayTarget(false).setOutsideTouchable(false);
+
+        // @formatter:off
+        builder.setTargetView(ll_nearby)
+               .setFullingViewId(R.id.ll_view_group)
+               .setAlpha(150)
+               .setHighTargetCorner(20)
+               .setHighTargetPadding(10)
+               .setOverlayTarget(false)
+               .setOutsideTouchable(false);
+        // @formatter:on
+
         builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
 
             @Override
@@ -59,7 +67,8 @@ public class ViewActivity extends Activity {
         });
 
         builder.addComponent(new MutiComponent());
-        guide = builder.createGuide();
+
+        Guide guide = builder.createGuide();
         guide.setShouldCheckLocInWindow(true);
         guide.show(this);
     }

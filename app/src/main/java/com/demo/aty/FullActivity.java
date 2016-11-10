@@ -14,12 +14,12 @@ import com.demo.guide.R;
 public class FullActivity extends Activity {
 
     private Button header_imgbtn;
-    Guide          guide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_guide_view);
+
         header_imgbtn = (Button) findViewById(R.id.header_imgbtn);
         header_imgbtn.setOnClickListener(new View.OnClickListener() {
 
@@ -28,6 +28,7 @@ public class FullActivity extends Activity {
                 Toast.makeText(FullActivity.this, "show", Toast.LENGTH_SHORT).show();
             }
         });
+
         header_imgbtn.post(new Runnable() {
 
             @Override
@@ -37,10 +38,18 @@ public class FullActivity extends Activity {
         });
     }
 
-    public void showGuideView() {
+    private void showGuideView() {
         GuideBuilder builder = new GuideBuilder();
-        builder.setTargetView(header_imgbtn).setAlpha(150).setHighTargetCorner(20).setHighTargetPadding(10)
-                .setOverlayTarget(false).setOutsideTouchable(false);
+
+        // @formatter:off
+        builder.setTargetView(header_imgbtn)
+               .setAlpha(150)
+               .setHighTargetCorner(20)
+               .setHighTargetPadding(10)
+               .setOverlayTarget(false)
+               .setOutsideTouchable(false);
+        // @formatter:on
+
         builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
 
             @Override
@@ -53,7 +62,8 @@ public class FullActivity extends Activity {
         });
 
         builder.addComponent(new SimpleComponent());
-        guide = builder.createGuide();
+
+        Guide guide = builder.createGuide();
         guide.setShouldCheckLocInWindow(true);
         guide.show(this);
     }
